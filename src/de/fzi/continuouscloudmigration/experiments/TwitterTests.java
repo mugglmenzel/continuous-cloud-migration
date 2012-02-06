@@ -34,7 +34,7 @@ public class TwitterTests {
 			// System.out.println("Sent: " + message.getText() + " to @"
 			// + message.getRecipientScreenName());
 			Status status = twitter
-					.updateStatus("Event: @eOrganization, please reconsider your Cloud service choice for component X!");
+					.updateStatus("Event: @mugglmenzel, please reconsider your Cloud service choice for component X!");
 			System.out.println("twittered: " + status.getText());
 
 		} catch (TwitterException e) {
