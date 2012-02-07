@@ -1,11 +1,5 @@
 package de.fzi.continuouscloudmigration.experiments;
-import java.util.LinkedList;
-
 import net.sourceforge.jFuzzyLogic.FIS;
-import net.sourceforge.jFuzzyLogic.FunctionBlock;
-import net.sourceforge.jFuzzyLogic.rule.Rule;
-import net.sourceforge.jFuzzyLogic.rule.RuleExpression;
-import net.sourceforge.jFuzzyLogic.rule.RuleTerm;
 
 public class FuzzyLogicTestMain {
 
