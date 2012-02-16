@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.fzi.continuouscloudmigration.events;
+package de.eorg.continuouscloudmigration.events;
 
 /**
  * @author mugglmenzel
