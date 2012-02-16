@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.fzi.continuouscloudmigration.experiments;
+package de.eorg.continuouscloudmigration.experiments;
 
 import twitter4j.AccountTotals;
 import twitter4j.Status;

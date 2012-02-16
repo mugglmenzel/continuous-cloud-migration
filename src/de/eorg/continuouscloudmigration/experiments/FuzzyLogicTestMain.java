@@ -1,4 +1,4 @@
-package de.fzi.continuouscloudmigration.experiments;
+package de.eorg.continuouscloudmigration.experiments;
 import net.sourceforge.jFuzzyLogic.FIS;
 
 public class FuzzyLogicTestMain {
