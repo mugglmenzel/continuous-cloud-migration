@@ -62,7 +62,6 @@ public class Attribute<T> implements Serializable, Cloneable,
 		this.value = value;
 	}
 
-	@Override
 	public int compareTo(Attribute<T> o) {
 		return getValue().equals(o.getValue()) ? 0 : getValue().toString()
 				.compareTo(o.getValue().toString());

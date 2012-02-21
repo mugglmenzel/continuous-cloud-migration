@@ -28,7 +28,6 @@ public abstract class AbstractAttributedItem implements IAttributedItem {
 	 * 
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
-	@Override
 	public int compareTo(IAttributedItem o) {
 		return ((o.getAttributes() != null && o.getAttributes() != null) ? getAttributes()
 				.size() - o.getAttributes().size()
@@ -42,7 +41,6 @@ public abstract class AbstractAttributedItem implements IAttributedItem {
 	 * org.collaboration.cloudmapping.model.mapping.IAttributedItem#getAttribute
 	 * (org.collaboration.cloudmapping.model.mapping.EAttribute)
 	 */
-	@Override
 	public Attribute<?> getAttribute(IEAttribute attributeName) {
 		for (Attribute<?> a : getAttributes())
 			if (a.getName().equals(attributeName))
@@ -57,7 +55,6 @@ public abstract class AbstractAttributedItem implements IAttributedItem {
 	 * org.collaboration.cloudmapping.model.mapping.IAttributedItem#getAttributes
 	 * ()
 	 */
-	@Override
 	public Set<Attribute<?>> getAttributes() {
 		return attributes;
 	}

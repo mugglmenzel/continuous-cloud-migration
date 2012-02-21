@@ -1,25 +1,42 @@
 package de.eorg.continuouscloudmigration.cloudmapping.model;
 
-import java.security.KeyPair;
+import static org.jclouds.ec2.options.RunInstancesOptions.Builder.asType;
+
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
+import org.jclouds.compute.ComputeServiceContextFactory;
+import org.jclouds.ec2.EC2AsyncClient;
+import org.jclouds.ec2.EC2Client;
+import org.jclouds.ec2.domain.InstanceType;
+import org.jclouds.ec2.domain.IpProtocol;
+import org.jclouds.ec2.domain.KeyPair;
+import org.jclouds.ec2.domain.Reservation;
+import org.jclouds.ec2.domain.RunningInstance;
+import org.jclouds.ec2.predicates.InstanceStateRunning;
+import org.jclouds.net.IPSocket;
+import org.jclouds.predicates.InetSocketAddressConnect;
+import org.jclouds.predicates.RetryablePredicate;
+import org.jclouds.rest.RestContext;
+
+import com.google.common.collect.Iterables;
 
 import de.eorg.continuouscloudmigration.cloudmapping.model.mapping.Instance;
 
 public class DeploymentManager {
 
 	/**
-	 * @uml.property  name="instance"
-	 * @uml.associationEnd  multiplicity="(1 1)"
+	 * @uml.property name="instance"
+	 * @uml.associationEnd multiplicity="(1 1)"
 	 */
 	private final Instance instance;
 	/**
-	 * @uml.property  name="publicKey"
+	 * @uml.property name="publicKey"
 	 */
 	private final String publicKey;
 	/**
-	 * @uml.property  name="secretKey"
+	 * @uml.property name="secretKey"
 	 */
 	private final String secretKey;
 
@@ -34,7 +51,7 @@ public class DeploymentManager {
 
 	/**
 	 * @return
-	 * @uml.property  name="instance"
+	 * @uml.property name="instance"
 	 */
 	public Instance getInstance() {
 		return instance;
@@ -43,7 +60,6 @@ public class DeploymentManager {
 	public void deployInstance(String name) {
 		String ami = this.instance.getAppliance().getName();
 		String size = this.instance.getComputeService().getName();
-		
 
 		RestContext<EC2Client, EC2AsyncClient> context = new ComputeServiceContextFactory()
 				.createContext("aws-ec2", publicKey, secretKey)
@@ -70,7 +86,8 @@ public class DeploymentManager {
 	}
 
 	private static RunningInstance createSecurityGroupKeyPairAndInstance(
-			EC2Client client, String name, String ami, String size) throws TimeoutException {
+			EC2Client client, String name, String ami, String size)
+			throws TimeoutException {
 		// create a new security group
 		createSecurityGroupAndAuthorizePorts(client, name);
 
@@ -101,7 +118,8 @@ public class DeploymentManager {
 	}
 
 	private static RunningInstance runInstance(EC2Client client,
-			String securityGroupName, String keyPairName, String ami, String size) {
+			String securityGroupName, String keyPairName, String ami,
+			String size) {
 		String script = ""; /*
 							 * new ScriptBuilder() // lamp install script
 							 * .addStatement

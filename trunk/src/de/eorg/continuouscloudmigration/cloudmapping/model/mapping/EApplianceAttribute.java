@@ -24,7 +24,6 @@ public enum EApplianceAttribute implements IEAttribute {
 	 * @param name  the name to set
 	 * @uml.property  name="name"
 	 */
-	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -33,7 +32,6 @@ public enum EApplianceAttribute implements IEAttribute {
 	 * @return  the name
 	 * @uml.property  name="name"
 	 */
-	@Override
 	public String getName() {
 		return name;
 	}
