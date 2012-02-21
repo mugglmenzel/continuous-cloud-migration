@@ -62,12 +62,10 @@ public abstract class Appliance implements IAttributedItem {
 	/**
 	 * @return the attributes
 	 */
-	@Override
 	public Set<Attribute<?>> getAttributes() {
 		return attributes;
 	}
 
-	@Override
 	public Attribute<?> getAttribute(IEAttribute attributeName) {
 		for (Attribute<?> a : getAttributes())
 			if (a.getName().equals(attributeName))
@@ -75,7 +73,6 @@ public abstract class Appliance implements IAttributedItem {
 		return null;
 	}
 
-	@Override
 	public int compareTo(IAttributedItem o) {
 		return ((o.getAttributes() != null && o.getAttributes() != null) ? getAttributes()
 				.size() - o.getAttributes().size()

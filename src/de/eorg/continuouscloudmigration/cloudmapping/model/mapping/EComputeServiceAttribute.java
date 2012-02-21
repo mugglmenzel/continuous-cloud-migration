@@ -27,7 +27,6 @@ public enum EComputeServiceAttribute implements IEAttribute {
 	 * @param name
 	 * @uml.property  name="name"
 	 */
-	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -39,7 +38,6 @@ public enum EComputeServiceAttribute implements IEAttribute {
 	 * @return
 	 * @uml.property  name="name"
 	 */
-	@Override
 	public String getName() {
 		return name;
 	}

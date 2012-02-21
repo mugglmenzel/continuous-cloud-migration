@@ -23,12 +23,11 @@ public class RequirementItem<T> implements IRequirementItem<T> {
 		this.value = value;
 	}
 
-	@Override
 	public int compareTo(T o) {
 		return getValue().compareTo(o);
 	}
 
-	@Override
+
 	public Comparable<T> getValue() {
 		return value;
 	}

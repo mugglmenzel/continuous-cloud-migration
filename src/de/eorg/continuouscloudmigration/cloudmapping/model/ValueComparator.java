@@ -14,7 +14,6 @@ public class ValueComparator implements Comparator {
 	      this.base = base;
 	  }
 
-	  @Override
 	public int compare(Object a, Object b) {
 
 	    if((Double)base.get(a) < (Double)base.get(b)) {
