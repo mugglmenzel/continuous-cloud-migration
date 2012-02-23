@@ -1,0 +1,169 @@
+FUNCTION_BLOCK metrics
+
+VAR_INPUT
+	serviceCPUPerformance : REAL;
+	serviceRAMPerformance : REAL;
+	serviceDiskPerformance : REAL;
+	serviceUptime : REAL;
+	servicePopularity : REAL;
+	serviceHourlyPrice : REAL;
+	serviceMaxNetworkLatency : REAL;
+	serviceAverageNetworkLatency : REAL;
+	serviceMaxNetworkThroughput : REAL;
+	serviceAverageNetworkThroughput : REAL;
+	imageHourlyLicensePrice : REAL;
+	imagePopularity : REAL;
+END_VAR
+
+VAR_OUTPUT
+	serviceImageSelection : REAL;
+	componentAdjustment : REAL;
+	formationAdjustment : REAL;
+	cloudReconsideration : REAL;
+END_VAR
+
+//Fuzzify input variable serviceCPUPerformance
+FUZZIFY serviceCPUPerformance
+	TERM low := (0,1) (25,0);
+	TERM medium := (25,0) (40,1) (60,1) (75,0);
+	TERM high := (75,0) (100,1);
+END_FUZZIFY
+
+//Fuzzify input variable serviceRAMPerformance
+FUZZIFY serviceRAMPerformance
+	TERM low := (0,1) (25,0);
+	TERM medium := (25,0) (40,1) (60,1) (75,0);
+	TERM high := (75,0) (100,1);
+END_FUZZIFY
+
+//Fuzzify input variable serviceDiskPerformance
+FUZZIFY serviceDiskPerformance
+	TERM low := (0,1) (25,0);
+	TERM medium := (25,0) (40,1) (60,1) (75,0);
+	TERM high := (75,0) (100,1);
+END_FUZZIFY
+
+//Fuzzify input variable serviceUptime
+FUZZIFY serviceUptime
+	TERM low := (95,1) (97,0);
+	TERM medium := (97,0) (97.5, 1) (98.5, 1) (99, 0);
+	TERM high := (99,0) (100,1);
+END_FUZZIFY
+
+//Fuzzify input variable servicePopularity
+FUZZIFY servicePopularity
+	TERM low := (0,1) (25,0);
+	TERM medium := (25,0) (40,1) (60,1) (75,0);
+	TERM high := (75,0) (100,1); 
+END_FUZZIFY
+
+//Fuzzify input variable serviceHourlyPrice
+FUZZIFY serviceHourlyPrice
+	TERM low := (0,1) (0.5,0);
+	TERM medium := (0.5,0) (0.75,1) (1.75,1) (2,0);
+	TERM high := (2,0) (4,1);
+END_FUZZIFY
+
+//Fuzzify input variable serviceMaxNetworkLatency
+//FUZZIFY serviceMaxNetworkLatency
+//	TERM low := 
+//	TERM medium := 
+//	TERM high := 
+//END_FUZZIFY
+
+//Fuzzify input variable serviceAverageNetworkLatency in seconds
+FUZZIFY serviceAverageNetworkLatency
+	TERM low := (0,1) (2,0);
+	TERM medium := (2,0) (3,1) (4,0);
+	TERM high := (4,0) (6,1);
+END_FUZZIFY
+
+//Fuzzify input variable serviceMaxNetworkThroughput
+//FUZZIFY serviceMaxNetworkThroughput
+//	TERM low := 
+//	TERM medium := 
+//	TERM high := 
+//END_FUZZIFY
+
+//Fuzzify input variable serviceAverageNetworkThroughput
+//FUZZIFY serviceAverageNetworkThroughput
+//	TERM low := 
+//	TERM medium := 
+//	TERM high := 
+//END_FUZZIFY
+
+//Fuzzify input variable imageHourlyLicensePrice
+FUZZIFY imageHourlyLicensePrice
+	TERM low := (0,1) (10,0);
+	TERM medium := (10,0) (20,1) (40,1) (60,0);
+	TERM high := (60,0) (100,1);
+END_FUZZIFY
+
+//Fuzzify input variable imagePopularity
+FUZZIFY imagePopularity
+	TERM low := (0,1) (25,0);
+	TERM medium := (25,0) (40,1) (60,1) (75,0);
+	TERM high := (75,0) (100,1); 
+END_FUZZIFY
+
+
+//Defuzzify output variable serviceImageSelection decision
+DEFUZZIFY serviceImageSelection
+	TERM low := (0,1) (25,0);
+	TERM medium := (25,0) (40,1) (60,1) (75,0);
+	TERM high := (75,0) (100,1);
+END_DEFUZZIFY
+
+//Defuzzify output variable componentAdjustment decision
+DEFUZZIFY componentAdjustment
+	TERM low := (0,1) (25,0);
+	TERM medium := (25,0) (40,1) (60,1) (75,0);
+	TERM high := (75,0) (100,1);
+END_DEFUZZIFY
+
+//Defuzzify output variable formationAdjustment decision
+DEFUZZIFY formationAdjustment
+	TERM low := (0,1) (25,0);
+	TERM medium := (25,0) (40,1) (60,1) (75,0);
+	TERM high := (75,0) (100,1);
+END_DEFUZZIFY
+
+//Defuzzify output variable cloudReconsideration decision
+DEFUZZIFY cloudReconsideration
+	TERM low := (0,1) (25,0);
+	TERM medium := (25,0) (40,1) (60,1) (75,0);
+	TERM high := (75,0) (100,1);
+END_DEFUZZIFY
+
+//Rules
+RULEBLOCK rules
+	AND : MIN;
+	ACT : MIN;
+	ACCU : MAX;
+	
+	RULE 1 : IF serviceHourlyPrice IS high AND (serviceUptime IS low OR serviceAverageNetworkLatency IS high)
+			 THEN cloudReconsideration IS high;
+	RULE 2 : IF serviceHourlyPrice IS high AND (serviceUptime IS medium OR serviceAverageNetworkLatency IS medium)
+			 THEN cloudReconsideration IS medium;
+	RULE 3 : IF serviceHourlyPrice is low AND serviceUptime IS low AND serviceAverageNetworkLatency IS low
+			 THEN cloudReconsideration IS low	
+	RULE 4 : IF serviceHourlyPrice IS high OR serviceUptime IS low OR serviceAverageNetworkLatency IS high
+			 THEN serviceImageSelection IS high;
+	RULE 5 : IF serviceHourlyPrice IS medium AND serviceUptime IS medium
+			 THEN serviceImageSelection IS medium;
+	RULE 6 : IF servicePopularity IS low OR imagePopularity IS low
+			 THEN serviceImageSelection IS medium;
+	RULE 7 : IF serviceHourlyPrice IS NOT high AND serviceUptime IS low AND serviceAverageNetworkLatency IS low
+			 THEN serviceImageSelection IS low;
+	RULE 8 : IF serviceHourlyPrice IS high AND serviceUptime IS NOT high AND serviceAverageNetworkLatency IS NOT high
+		     THEN componentAdjustment IS medium;  
+	RULE 9 : IF serviceCPUPerformance IS high AND serviceRAMPerformance IS high AND serviceDiskPerformance IS high AND serviceAverageNetworkLatency IS NOT low AND serviceUptime IS NOT low
+			 THEN formationAdjustment IS high;  		  
+	RULE 10 : IF serviceCPUPerfomance IS NOT low OR serviceRAMPerformance IS NOT low OR serviceDiskPerformance IS NOT low AND serviceUptime IS high AND serviceAverageNetworkLatency IS high
+		     THEN formationAdjustment IS high;
+	RULE 11 :  		     
+	
+	
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
